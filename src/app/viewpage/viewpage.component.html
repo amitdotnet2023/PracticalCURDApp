@@ -1,0 +1,127 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 mb-3">
+      <h1>Employee List View</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <form [formGroup]="SearchEmployeeFrom" novalidate (ngSubmit)="SearchEmployeeFLS()">
+        <div class="search">
+          <i class="fa fa-search"></i>
+          <input type="text" class="form-control" placeholder="Search by First name, Last name, salary"
+            formControlName="searchParameters"
+            [ngClass]="{ 'is-invalid': isSubmitted && f.searchParameters.errors, 'is-valid': f.searchParameters.valid }">
+          <button class="btn btn-primary" type="submit">Search</button>
+          <div *ngIf="isSubmitted && f.searchParameters.errors" class="invalid-feedback">
+            <div *ngIf="f.searchParameters.errors.required">Field is required!</div>
+          </div>
+        </div>
+      </form>
+    </div>
+    
+    <div class="col-md-2 mb-3 search">
+      <button class="btn btn-primary" type="button" (click)="resetsearch()">Rest Search</button>
+    </div>
+
+    <div class="col-4 mb-3">
+      <button type="button" class="btn btn-primary float-end" [routerLink]="['/addemployee']">Employee Add</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <table class="table table-striped" border="1">
+        <thead>
+          <tr>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Department Name</th>
+            <th scope="col">Salary</th>
+            <th scope="col">Joining Date</th>
+            <th scope="col">IsActive</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let emplist of EmployeeList.data | paginate
+          : {
+              itemsPerPage: pageSize,
+              currentPage: pageNumber,
+              totalItems: totalRecords
+            };
+      let i = index">
+            <td>{{emplist.firstName}}</td>
+            <td>{{emplist.lastName}}</td>
+            <td>
+              <div *ngFor="let deplist of DepartmentList">
+                <div *ngIf="emplist.departmentId==deplist.departmentId">
+                  {{deplist.name}}
+                </div>
+              </div>
+            </td>
+            <td>{{emplist.salary}}</td>
+            <td>{{emplist.joinDate|date:'dd/MM/YYYY'}}</td>
+            <td>{{emplist.isActive}}</td>
+            <td>
+              <a (click)="editemployee(emplist.employeeId)"><i class="bi bi-pencil-square"
+                  style="color: blue;cursor: pointer;"></i></a>
+              &nbsp;
+              <a (click)="deleteEmployee(emplist.employeeId)"><i class="bi bi-trash"
+                  style="color: red;cursor: pointer;"></i></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+      <pagination-controls class="pagination justify-content-end page-item" previousLabel="Prev" nextLabel="Next"
+        (pageChange)="onTableDataChange($event)">
+      </pagination-controls>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-12">
+      <h1>Department List View</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 mb-3">
+      <button type="button" class="btn btn-primary float-end" [routerLink]="['/adddepartment']">Department Add</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <table class="table table-striped" border="1">
+        <thead>
+          <tr>
+            <th scope="col">Department Name</th>
+            <th scope="col">IsActive</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let deplist of DepartmentList">
+            <td>{{deplist.name}}</td>
+            <td>{{deplist.isActive}}</td>
+            <td>
+              <a (click)="editDepart(deplist.departmentId)"><i class="bi bi-pencil-square"
+                  style="color: blue;cursor: pointer;"></i></a>
+              &nbsp;
+              <a (click)="deleteDepartment(deplist.departmentId)"><i class="bi bi-trash"
+                  style="color: red;cursor: pointer;"></i></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

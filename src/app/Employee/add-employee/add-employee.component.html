@@ -1,0 +1,89 @@
+<div class="container">
+
+<form [formGroup]="EmployeeForm" novalidate (ngSubmit)="OnSubmit()">    
+    <div class="row">
+      <div class="col-12">
+        <h1>Employee Add</h1>
+        <div class="row">
+            <div class="col-6">
+                <div class="mb-3">
+                    <label class="form-label">First Name</label>
+                    <input type="text" class="form-control" placeholder="First Name" formControlName="firstName" required appAlphabetOnly [ngClass]="{ 'is-invalid': issubmitted && f.firstName.errors, 'is-valid': f.firstName.valid }">
+                    <div *ngIf="issubmitted && f.firstName.errors" class="invalid-feedback">
+                        <div *ngIf="f.firstName.errors.required">First name is required!</div>
+                    </div>
+               </div>
+            </div>
+            <div class="col-6">
+                <div class="mb-3">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" class="form-control" placeholder="Last Name" formControlName="lastName" required appAlphabetOnly [ngClass]="{ 'is-invalid': issubmitted && f.lastName.errors, 'is-valid': f.lastName.valid }">
+                    <div *ngIf="issubmitted && f.lastName.errors" class="invalid-feedback">
+                        <div *ngIf="f.lastName.errors.required">Last name is required!</div>
+                    </div>
+
+               </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <div class="mb-3">
+                    <label class="form-label">Department</label>
+                    <select class="form-select" formControlName="departmentId"required [ngClass]="{ 'is-invalid': issubmitted && f.departmentId.errors, 'is-valid': f.departmentId.valid }">
+                        <option value="" selected disabled>select department</option>
+                        <option *ngFor="let dep of DepartmentList" [value]="dep.departmentId">{{dep.name}}</option>
+                      </select>
+                      <div *ngIf="issubmitted && f.departmentId.errors" class="invalid-feedback">
+                        <div *ngIf="f.departmentId.errors.required">Department name is required!</div>
+                    </div>
+
+               </div>
+            </div>
+            <div class="col-6">
+                <div class="mb-3">
+                    <label class="form-label">Salary</label>
+                    <input type="number" class="form-control" placeholder="Salary" formControlName="salary" required [ngClass]="{ 'is-invalid': issubmitted && f.salary.errors, 'is-valid': f.salary.valid }" (keypress)="decimalFilter($event)">
+                    <div *ngIf="issubmitted && f.salary.errors" class="invalid-feedback">
+                        <div *ngIf="f.salary.errors.required">Salary is required!</div>
+                    </div>
+
+               </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <div class="mb-3">
+                    <label class="form-label">Joining Date</label>
+                    <input type="date" class="form-control" placeholder="Joining Date" formControlName="joinDate" required [ngClass]="{ 'is-invalid': issubmitted && f.joinDate.errors, 'is-valid': f.joinDate.valid }" (input)="DateCheck(f.joinDate)">
+                    <div *ngIf="issubmitted && f.joinDate.errors" class="invalid-feedback">
+                        <div *ngIf="f.joinDate.errors.required">Joining date is required!</div>
+                    </div>
+
+               </div>
+            </div>
+            <div class="col-6">
+                <div class="mb-3">
+                    <label class="form-label">Is Active</label>
+                    <input type="text" class="form-control" placeholder="IsActive" formControlName="isActive" required [ngClass]="{ 'is-invalid': issubmitted && f.isActive.errors, 'is-valid': f.isActive.valid }">
+                    <div *ngIf="issubmitted && f.isActive.errors" class="invalid-feedback">
+                        <div *ngIf="f.isActive.errors.required">Is Active is required!</div>
+                    </div>
+               </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-12">
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary float-end">Add</button>
+               </div>
+            </div>
+        </div>
+
+
+       </div>
+    </div>
+</form>
+</div>
